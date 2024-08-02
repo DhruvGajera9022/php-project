@@ -8,6 +8,7 @@ if (isset($_SESSION['id'])) {
   exit;
 }
 
+
 if (isset($_POST['signin'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
@@ -23,17 +24,18 @@ if (isset($_POST['signin'])) {
   }
 
   if (empty($errors)) {
-    $sqlSelect = $conn->prepare("SELECT * FROM tbluser WHERE email = '$email'");
+    $sqlSelect = $conn->prepare("SELECT * FROM tbluser WHERE email = ?");
+    $sqlSelect->bind_param("s", $email);
     $sqlSelect->execute();
     $result = $sqlSelect->get_result();
     $user = $result->fetch_assoc();
 
-    $id = $sqlSelect->id;
-    $_SESSION["id"] = $id;
-
     if ($user && password_verify($password, $user['password'])) {
+      $_SESSION["id"] = $user['id'];
       header('Location: ../admin/dashboard.php');
       exit();
+    } else {
+      $errors['email'] = "Please enter registered email and password";
     }
   }
 }
@@ -46,14 +48,7 @@ if (isset($_POST['signin'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login</title>
-
-  <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <!-- <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css"> -->
-  <!-- icheck bootstrap -->
-  <!-- <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css"> -->
-  <!-- Theme style -->
   <link rel="stylesheet" href="../assets/css/adminlte.min.css">
   <style>
     .error {
@@ -67,12 +62,11 @@ if (isset($_POST['signin'])) {
     <div class="login-logo">
       <a href="../../index2.html"><b>Login</b></a>
     </div>
-    <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
-        <?php if (isset($error)) : ?>
-          <div class="alert alert-danger"><?php echo $error; ?></div>
+        <?php if (!empty($errors['login'])) : ?>
+          <div class="alert alert-danger"><?php echo $errors['login']; ?></div>
         <?php endif; ?>
         <form method="post" id="loginForm">
 
@@ -90,19 +84,14 @@ if (isset($_POST['signin'])) {
             <div class="col-8">
               <div class="icheck-primary">
                 <input type="checkbox" id="remember">
-                <label for="remember">
-                  Remember Me
-                </label>
+                <label for="remember">Remember Me</label>
               </div>
             </div>
-            <!-- /.col -->
             <div class="col-4">
               <button type="submit" name="signin" class="btn btn-primary btn-block">Sign In</button>
             </div>
-            <!-- /.col -->
           </div>
         </form>
-
         <div class="social-auth-links text-center mb-3">
           <p>- OR -</p>
           <a href="#" class="btn btn-block btn-primary">
@@ -112,8 +101,6 @@ if (isset($_POST['signin'])) {
             <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
           </a>
         </div>
-        <!-- /.social-auth-links -->
-
         <p class="mb-1">
           <a href="forgot-password.php">I forgot my password</a>
         </p>
@@ -121,20 +108,10 @@ if (isset($_POST['signin'])) {
           <a href="register.php" class="text-center">Register a new membership</a>
         </p>
       </div>
-      <!-- /.login-card-body -->
     </div>
   </div>
-  <!-- /.login-box -->
-
-  <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <!-- <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-  <!-- AdminLTE App -->
-  <!-- <script src="../../dist/js/adminlte.min.js"></script> -->
-  <!-- jQuery Validation -->
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
-  <!-- For Validation -->
   <script src="../assets/javascript/validation.js"></script>
 </body>
 
