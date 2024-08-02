@@ -15,7 +15,7 @@ $(document).ready(function () {
                 required: true
             },
             password: {
-                required: true
+                required: true,
             },
             cpassword: {
                 required: true

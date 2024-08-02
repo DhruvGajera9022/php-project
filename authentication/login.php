@@ -1,6 +1,13 @@
 <?php
 require_once '../database/config.php';
 
+session_start();
+
+if (isset($_SESSION['id'])) {
+  header('Location: ../admin/dashboard.php');
+  exit;
+}
+
 if (isset($_POST['signin'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
@@ -21,8 +28,11 @@ if (isset($_POST['signin'])) {
     $result = $sqlSelect->get_result();
     $user = $result->fetch_assoc();
 
+    $id = $sqlSelect->id;
+    $_SESSION["id"] = $id;
+
     if ($user && password_verify($password, $user['password'])) {
-      header('Location: ../php/admin.php');
+      header('Location: ../admin/dashboard.php');
       exit();
     }
   }
@@ -44,7 +54,7 @@ if (isset($_POST['signin'])) {
   <!-- icheck bootstrap -->
   <!-- <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css"> -->
   <!-- Theme style -->
-  <link rel="stylesheet" href="../css/adminlte.min.css">
+  <link rel="stylesheet" href="../assets/css/adminlte.min.css">
   <style>
     .error {
       color: red;
@@ -125,7 +135,7 @@ if (isset($_POST['signin'])) {
   <!-- jQuery Validation -->
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
   <!-- For Validation -->
-  <script src="../javascript/validation.js"></script>
+  <script src="../assets/javascript/validation.js"></script>
 </body>
 
 </html>

@@ -2,6 +2,13 @@
 
 require_once '../database/config.php';
 
+session_start();
+
+if (isset($_SESSION['id'])) {
+  header('Location: ../admin/dashboard.php');
+  exit;
+}
+
 if (isset($_POST['register'])) {
 
   $fname = $_POST['fname'];
@@ -43,9 +50,10 @@ if (isset($_POST['register'])) {
   $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
   if (empty($errors)) {
-    $sqlInsert = "INSERT INTO tbluser(fname, lname, email, password) VALUES('$fname', '$lname', '$email', '$passwordHash')";
+    $sqlInsert = $conn->prepare("INSERT INTO tbluser(fname, lname, email, password) VALUES('$fname', '$lname', '$email', '$passwordHash')");
+    $sqlInsert->execute();
+    $result = $sqlInsert->get_result();
 
-    $result = mysqli_query($conn, $sqlInsert);
     if ($result) {
       header("Location: login.php");
       exit;
@@ -70,7 +78,7 @@ if (isset($_POST['register'])) {
   <!-- icheck bootstrap -->
   <!-- <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css"> -->
   <!-- Theme style -->
-  <link rel="stylesheet" href="../css/adminlte.min.css">
+  <link rel="stylesheet" href="../assets/css/adminlte.min.css">
   <style>
     .error {
       color: red;
@@ -98,11 +106,11 @@ if (isset($_POST['register'])) {
             </div>
           <?php endif; ?>
 
-            <input type="text" class="form-control" name="fname" id="fname" placeholder="First name"><br>
-            <input type="text" class="form-control" name="lname" id="lname" placeholder="Last name"><br>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Email"><br>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password"><br>
-            <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Retype password"><br>
+          <input type="text" class="form-control" name="fname" id="fname" placeholder="First name"><br>
+          <input type="text" class="form-control" name="lname" id="lname" placeholder="Last name"><br>
+          <input type="email" class="form-control" name="email" id="email" placeholder="Email"><br>
+          <input type="password" class="form-control" name="password" id="password" placeholder="Password"><br>
+          <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Retype password"><br>
           <div class="row">
             <div class="col-8">
               <div class="icheck-primary">
@@ -148,7 +156,7 @@ if (isset($_POST['register'])) {
   <!-- jQuery Validation -->
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
   <!-- For Validation -->
-  <script src="../javascript/validation.js"></script>
+  <script src="../assets/javascript/validation.js"></script>
 </body>
 
 </html>
