@@ -14,7 +14,7 @@ $query = "DELETE FROM tbluser WHERE id = '$id' ";
 $result = mysqli_query($conn, $query);
 
 if($result){
-    header('location: users.php');
+    header('location: ../admin/users.php');
 }
 
 ?>

@@ -2,6 +2,8 @@ $(document).ready(function () {
 
     var $registerForm = $("#registerForm");
     var $loginForm = $("#loginForm");
+    var $passwordForm = $("#formPassword");
+    var $settings = $("#formProfile");
 
     $registerForm.validate({
         rules: {
@@ -45,7 +47,7 @@ $(document).ready(function () {
             email: {
                 required: true
             },
-            password:{
+            password: {
                 required: true
             }
         },
@@ -53,10 +55,72 @@ $(document).ready(function () {
             email: {
                 required: "Email must be required"
             },
-            password:{
+            password: {
                 required: "Password must be required"
             }
         }
-    })
+    });
+
+    $passwordForm.validate({
+        rules: {
+            password: {
+                required: true
+            },
+            cpassword: {
+                required: true
+            }
+        },
+        messages: {
+            email: {
+                required: "Password must be required"
+            },
+            password: {
+                required: "Confirm Password must be required"
+            }
+        }
+    });
+
+    $settings.validate({
+        rules: {
+            name: {
+                required: true
+            },
+            email: {
+                required: true
+            },
+            number: {
+                required: true
+            },
+            gender: {
+                required: true
+            },
+            dob: {
+                required: true
+            },
+            hobby: {
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                required: "Name must be required"
+            },
+            email: {
+                required: "Email must be required"
+            },
+            number: {
+                required: "Number must be required"
+            },
+            gender: {
+                required: "Gender must be required"
+            },
+            dob: {
+                required: "Date of Birth must be required"
+            },
+            hobby: {
+                required: "Hobby must be required"
+            }
+        }
+    });
 
 });

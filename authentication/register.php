@@ -11,11 +11,13 @@ if (isset($_SESSION['id'])) {
 
 if (isset($_POST['register'])) {
 
-  $fname = $_POST['fname'];
-  $lname = $_POST['lname'];
-  $email = $_POST['email'];
+  $fname = trim($_POST['fname']);
+  $lname = trim($_POST['lname']);
+  $email = trim($_POST['email']);
   $password = $_POST['password'];
   $cpassword = $_POST['cpassword'];
+
+  $errors = [];
 
   if (empty($fname)) {
     $errors['fname'] = "Enter first name";
@@ -33,6 +35,15 @@ if (isset($_POST['register'])) {
     $errors['email'] = "Enter email";
   } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors['email'] = "Enter a valid email";
+  } else {
+    $stmt = $conn->prepare("SELECT email FROM tbluser WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+      $errors['email'] = "Email already registered";
+    }
+    $stmt->close();
   }
 
   if (empty($password)) {
@@ -44,20 +55,22 @@ if (isset($_POST['register'])) {
   }
 
   if ($password != $cpassword) {
-    $errors['compare'] = "Password and Confirm Password should be same";
+    $errors['compare'] = "Password and Confirm Password should be the same";
   }
 
-  $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
   if (empty($errors)) {
-    $sqlInsert = $conn->prepare("INSERT INTO tbluser(fname, lname, email, password) VALUES('$fname', '$lname', '$email', '$passwordHash')");
-    $sqlInsert->execute();
-    $result = $sqlInsert->get_result();
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-    if ($result) {
+    $stmt = $conn->prepare("INSERT INTO tbluser (fname, lname, email, password) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $fname, $lname, $email, $passwordHash);
+
+    if ($stmt->execute()) {
       header("Location: login.php");
       exit;
+    } else {
+      $errors['db_error'] = "Database error: Failed to register";
     }
+    $stmt->close();
   }
 }
 
@@ -101,14 +114,14 @@ if (isset($_POST['register'])) {
           <?php if (!empty($errors)) : ?>
             <div class="alert alert-danger">
               <?php foreach ($errors as $error) : ?>
-                <p><?php echo $error; ?></p>
+                <p><?php echo htmlspecialchars($error); ?></p>
               <?php endforeach; ?>
             </div>
           <?php endif; ?>
 
-          <input type="text" class="form-control" name="fname" id="fname" placeholder="First name"><br>
-          <input type="text" class="form-control" name="lname" id="lname" placeholder="Last name"><br>
-          <input type="email" class="form-control" name="email" id="email" placeholder="Email"><br>
+          <input type="text" class="form-control" name="fname" id="fname" placeholder="First name" value="<?php echo isset($fname) ? htmlspecialchars($fname) : ''; ?>"><br>
+          <input type="text" class="form-control" name="lname" id="lname" placeholder="Last name" value="<?php echo isset($lname) ? htmlspecialchars($lname) : ''; ?>"><br>
+          <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>"><br>
           <input type="password" class="form-control" name="password" id="password" placeholder="Password"><br>
           <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Retype password"><br>
           <div class="row">

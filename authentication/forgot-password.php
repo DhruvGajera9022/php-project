@@ -1,12 +1,32 @@
 <?php
 
-session_start();
+require_once '../database/config.php';
 
-if (isset($_SESSION['id'])) {
-  header('Location: ../admin/dashboard.php');
-  exit;
+$errors = array();
+
+if (isset($_POST['button'])) {
+  $id = $_GET['id'];
+  $password = $_POST['password'];
+
+  if (empty($password)) {
+    $errors['password'] = "Enter Password";
+  }
+
+  if (empty($errors)) {
+    $sqlSelect = $conn->prepare("SELECT * FROM tbluser WHERE id = '$id'");
+    $sqlSelect->execute();
+    $result = $sqlSelect->get_result();
+    $user = $result->fetch_assoc();
+
+    if ($user && password_verify($password, $user['password'])) {
+      $idu = $user['id'];
+      header("Location: ../authentication/recover-password.php?id=$idu");
+      exit();
+    } else {
+      $errors['password'] = "Please enter registered password";
+    }
+  }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -20,11 +40,11 @@ if (isset($_SESSION['id'])) {
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../css/adminlte.min.css">
+  <link rel="stylesheet" href="../assets/css/adminlte.min.css">
 </head>
 
 <body class="hold-transition login-page">
@@ -37,15 +57,22 @@ if (isset($_SESSION['id'])) {
       <div class="card-body login-card-body">
         <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
 
-        <form action="recover-password.php" method="post">
+        <form method="post">
           <div class="input-group mb-3">
-            <input type="email" class="form-control" name="email" placeholder="Email">
+            <input type="password" class="form-control" name="password" placeholder="Password">
             <div class="input-group-append">
               <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+                <span class="fas fa-lock"></span>
               </div>
             </div>
           </div>
+          <?php if (!empty($errors)) : ?>
+            <div class="alert alert-danger">
+              <?php foreach ($errors as $error) : ?>
+                <p><?php echo $error; ?></p>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
           <div class="row">
             <div class="col-12">
               <button type="submit" name="button" class="btn btn-primary btn-block">Request new password</button>
@@ -67,11 +94,11 @@ if (isset($_SESSION['id'])) {
   <!-- /.login-box -->
 
   <!-- jQuery -->
-  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
-  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="../../dist/js/adminlte.min.js"></script>
+  <script src="../dist/js/adminlte.min.js"></script>
 </body>
 
 </html>

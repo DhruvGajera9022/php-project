@@ -2,30 +2,7 @@
 
 require_once '../database/config.php';
 
-// if(isset($_POST['button'])){
-//   $email = $_POST['email'];
 
-//   $password = $_POST['password'];
-
-//   $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-//   $sqlUpdate = "UPDATE tbluser SET password = '$passwordHash' WHERE email = '$email'";
-//   $sqlUpdate->execute();
-//   $result = $sqlSelect->get_result();
-//   $user = $result->fetch_assoc();
-
-//   if($result){
-//     header('Location: ../index.php');
-//   }
-
-// }
-
-session_start();
-
-if (isset($_SESSION['id'])) {
-  header('Location: ../admin/dashboard.php');
-  exit;
-}
 
 ?>
 
@@ -41,11 +18,11 @@ if (isset($_SESSION['id'])) {
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../css/adminlte.min.css">
+  <link rel="stylesheet" href="../assets/css/adminlte.min.css">
 </head>
 
 <body class="hold-transition login-page">
@@ -93,11 +70,11 @@ if (isset($_SESSION['id'])) {
   <!-- /.login-box -->
 
   <!-- jQuery -->
-  <script src="../../plugins/jquery/jquery.min.js"></script>
+  <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
-  <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="../../dist/js/adminlte.min.js"></script>
+  <script src="../dist/js/adminlte.min.js"></script>
 </body>
 
 </html>
