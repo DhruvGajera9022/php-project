@@ -58,33 +58,12 @@ if (isset($_POST['save'])) {
     }
 }
 
+$title = "Dashboard";
+$active = "active";
+
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
-
-    <?php include_once '../includes/head.php'; ?>
-
-</head>
-
-<body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-
-        <!-- Including Header -> header.php -->
-        <?php include_once '../includes/header.php'; ?>
-
-        <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="../assets/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-        </div>
-    </div>
-
-    <!--Including Left Main Sidebar Container -->
-    <?php include_once '../includes/slider.php'; ?>
+<?php include_once '../includes/body.php'; ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -688,12 +667,3 @@ if (isset($_POST['save'])) {
 
     <!-- Including Footer -->
     <?php include_once '../includes/footer.php'; ?>
-
-    </div>
-
-    <!-- Including Scripts -->
-    <?php include_once '../includes/scripts.php' ?>
-
-</body>
-
-</html>

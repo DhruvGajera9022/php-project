@@ -4,6 +4,7 @@ $(document).ready(function () {
     var $loginForm = $("#loginForm");
     var $passwordForm = $("#formPassword");
     var $settings = $("#formProfile");
+    var $formAddRole = $("#formAddRole");
 
     $registerForm.validate({
         rules: {
@@ -119,6 +120,25 @@ $(document).ready(function () {
             },
             hobby: {
                 required: "Hobby must be required"
+            }
+        }
+    });
+
+    $formAddRole.validate({
+        rules: {
+            fullname: {
+                required: true
+            },
+            description: {
+                required: true
+            }
+        },
+        messages: {
+            fullname: {
+                required: "Name must be required"
+            },
+            description: {
+                required: "Description must be required"
             }
         }
     });

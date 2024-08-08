@@ -24,19 +24,20 @@ $data = $res->fetch_assoc();
 $image = htmlspecialchars($data['image']);
 $fname = htmlspecialchars($data['fname']);
 
-$title = "All Users";
-$active = "active";
+$title = "Role";
+
+
 ?>
 
 <?php include_once '../includes/body.php'; ?>
-<!-- Content Wrapper. Contains page content -->
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>All Users</h1>
+                    <h1>Role</h1>
                 </div>
             </div>
         </div>
@@ -48,22 +49,17 @@ $active = "active";
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table id="userstable" class="table table-bordered table-hover">
+                            <div class="d-flex flex-row-reverse"><a href="addrole.php" class="btn btn-primary">Add</a></div>
+                            <table id="tablerole" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Email</th>
-                                        <th>Number</th>
-                                        <th>Gender</th>
-                                        <th>Date of Birth</th>
-                                        <th>Hobby</th>
-                                        <th>Action</th>
+                                        <th>Full Name</th>
+                                        <th>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $query = "SELECT * FROM tbluser";
+                                    $query = "SELECT * FROM tblrole";
                                     $stmt = $conn->prepare($query);
                                     if (!$stmt) {
                                         die("Prepare failed: " . $conn->error);
@@ -77,15 +73,11 @@ $active = "active";
                                         while ($data = $res->fetch_assoc()) {
                                     ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($data['fname']); ?></td>
-                                                <td><?php echo htmlspecialchars($data['lname']); ?></td>
-                                                <td><?php echo htmlspecialchars($data['email']); ?></td>
-                                                <td><?php echo htmlspecialchars($data['number']); ?></td>
-                                                <td><?php echo htmlspecialchars($data['gender']); ?></td>
-                                                <td><?php echo htmlspecialchars($data['dob']); ?></td>
-                                                <td><?php echo htmlspecialchars($data['hobby']); ?></td>
+                                                <td><?php echo htmlspecialchars($data['name']); ?></td>
+                                                <td><?php echo htmlspecialchars($data['description']); ?></td>
                                                 <td>
-                                                    <a href="../authentication/delete.php?id=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+                                                    <a href="editrole.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
+                                                    <a href="deleterole.php?id=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
                                                 </td>
                                             </tr>
                                     <?php
