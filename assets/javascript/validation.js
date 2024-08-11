@@ -5,6 +5,7 @@ $(document).ready(function () {
     var $passwordForm = $("#formPassword");
     var $settings = $("#formProfile");
     var $formAddRole = $("#formAddRole");
+    var $formAddUser = $("#formAddUser");
 
     $registerForm.validate({
         rules: {
@@ -128,19 +129,57 @@ $(document).ready(function () {
         rules: {
             fullname: {
                 required: true
-            },
-            description: {
-                required: true
             }
         },
         messages: {
             fullname: {
                 required: "Name must be required"
-            },
-            description: {
-                required: "Description must be required"
             }
         }
     });
+
+    $formAddUser.validate({
+        rules: {
+            name: {
+                required: true
+            },
+            email: {
+                required: true
+            },
+            number: {
+                required: true
+            },
+            gender: {
+                required: true
+            },
+            dob: {
+                required: true
+            },
+            hobby: {
+                required: true
+            }
+        },
+        messages: {
+            name: {
+                required: "Name must be required"
+            },
+            email: {
+                required: "Email must be required"
+            },
+            number: {
+                required: "Number must be required"
+            },
+            gender: {
+                required: "Gender must be required"
+            },
+            dob: {
+                required: "Date of Birth must be required"
+            },
+            hobby: {
+                required: "Hobby must be required"
+            }
+        }
+    });
+
 
 });

@@ -1,14 +1,21 @@
 <?php
+// Include the database configuration file
 require_once '../database/config.php';
+
+// Start a new session or resume the existing session
 session_start();
 session_regenerate_id(true);
 
+// Check if the user is logged in; if not, redirect to the login page
 if (!isset($_SESSION['id'])) {
     header("Location: ../authentication/login.php");
     exit;
 }
 
+// Retrieve the logged-in user's ID from the session
 $id = $_SESSION['id'];
+
+// Prepare and execute the SQL statement to fetch the user's data
 $sqlSelect = "SELECT * FROM tbluser WHERE id = ?";
 $stmt = $conn->prepare($sqlSelect);
 if (!$stmt) {
@@ -21,9 +28,11 @@ if (!$stmt->execute()) {
 $res = $stmt->get_result();
 $data = $res->fetch_assoc();
 
+// Sanitize the user's data before displaying it
 $image = htmlspecialchars($data['image']);
 $fname = htmlspecialchars($data['fname']);
 
+// Set page title and active menu
 $title = "All Users";
 $active = "active";
 ?>
@@ -41,6 +50,7 @@ $active = "active";
             </div>
         </div>
     </section>
+
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -48,6 +58,9 @@ $active = "active";
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            <div class="d-flex flex-row-reverse mb-3">
+                                <a href="adduser.php" class="btn btn-primary">Add</a>
+                            </div>
                             <table id="userstable" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -58,11 +71,13 @@ $active = "active";
                                         <th>Gender</th>
                                         <th>Date of Birth</th>
                                         <th>Hobby</th>
+                                        <th>Role</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
+                                    // Prepare and execute the SQL statement to fetch all users
                                     $query = "SELECT * FROM tbluser";
                                     $stmt = $conn->prepare($query);
                                     if (!$stmt) {
@@ -73,6 +88,7 @@ $active = "active";
                                     }
                                     $res = $stmt->get_result();
 
+                                    // Check if there are any users and display them in the table
                                     if ($res->num_rows > 0) {
                                         while ($data = $res->fetch_assoc()) {
                                     ?>
@@ -84,8 +100,10 @@ $active = "active";
                                                 <td><?php echo htmlspecialchars($data['gender']); ?></td>
                                                 <td><?php echo htmlspecialchars($data['dob']); ?></td>
                                                 <td><?php echo htmlspecialchars($data['hobby']); ?></td>
+                                                <td><?php echo htmlspecialchars($data['role']); ?></td>
                                                 <td>
-                                                    <a href="../authentication/delete.php?id=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+                                                    <a href="edituser.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
+                                                    <a href="deleteuser.php?id=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
                                                 </td>
                                             </tr>
                                     <?php

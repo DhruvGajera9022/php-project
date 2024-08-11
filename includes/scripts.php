@@ -76,8 +76,8 @@
             'responsive': true,
             'lengthChange': false,
             'autoWidth': false,
-            'buttons': ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+        });
         $('#userstable').DataTable({
             'paging': true,
             'lengthChange': false,
@@ -87,14 +87,15 @@
             'autoWidth': true,
             'responsive': true,
         });
-        $('#example2').DataTable({
-            'paging': true,
-            'lengthChange': false,
-            'searching': true,
-            'ordering': true,
-            'info': true,
-            'autoWidth': true,
+        $('#tablerole').DataTable({
             'responsive': true,
+            'lengthChange': false,
+            'autoWidth': false,
+            'searching': {
+                'width': '50 %',
+                'float': 'right',
+                'align': 'right'
+            }
         });
     });
 </script>

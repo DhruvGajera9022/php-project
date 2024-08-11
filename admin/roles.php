@@ -55,6 +55,7 @@ $title = "Role";
                                     <tr>
                                         <th>Full Name</th>
                                         <th>Description</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,8 +74,8 @@ $title = "Role";
                                         while ($data = $res->fetch_assoc()) {
                                     ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($data['name']); ?></td>
-                                                <td><?php echo htmlspecialchars($data['description']); ?></td>
+                                                <td><?php echo $data['name']; ?></td>
+                                                <td><?php echo $data['description']; ?></td>
                                                 <td>
                                                     <a href="editrole.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
                                                     <a href="deleterole.php?id=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>

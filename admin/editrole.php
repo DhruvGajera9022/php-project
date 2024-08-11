@@ -3,12 +3,15 @@ require_once '../database/config.php';
 session_start();
 session_regenerate_id(true);
 
+// Redirect to login page if session is not set
 if (!isset($_SESSION['id'])) {
     header("Location: ../authentication/login.php");
     exit;
 }
 
 $id = $_SESSION['id'];
+
+// Prepare and execute query to fetch user data
 $sqlSelect = "SELECT * FROM tbluser WHERE id = ?";
 $stmt = $conn->prepare($sqlSelect);
 if (!$stmt) {
@@ -24,6 +27,7 @@ $data = $res->fetch_assoc();
 $image = htmlspecialchars($data['image']);
 $fname = htmlspecialchars($data['fname']);
 
+// Handle form submission
 if (isset($_POST['edit'])) {
     $fullname = $_POST['fullname'];
     $description = $_POST['description'];
@@ -38,7 +42,7 @@ if (isset($_POST['edit'])) {
     }
 
     if (empty($error)) {
-        $upid = $_REQUEST['id'];
+        $upid = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
         $stmt = $conn->prepare("UPDATE tblrole SET name = ?, description = ? WHERE id = ?");
         if (!$stmt) {
             die("Prepare failed: " . $conn->error);
@@ -58,7 +62,6 @@ if (isset($_POST['edit'])) {
 $upid = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
 
 $title = "Role";
-
 ?>
 
 <?php include_once '../includes/body.php'; ?>

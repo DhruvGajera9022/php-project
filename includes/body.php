@@ -4,9 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo $title ?></title>
+    <title><?php echo $title; ?></title>
 
     <?php include_once 'head.php'; ?>
+
+    <style>
+        .error{
+            color: red;
+            font-weight: 100;
+        }
+    </style>
 
 </head>
 
@@ -18,9 +25,14 @@
 
         <!-- Preloader -->
         <!-- <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="<?php echo $title == 'Dashboard' ? 'animation__shake' : ''; ?>" src=" ../assets/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+            <img class="<?php echo $title == 'Dashboard' ? 'animation__shake' : ''; ?>" src="../assets/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
         </div> -->
-    </div>
 
-    <!--Including Left Main Sidebar Container -->
-    <?php include_once 'slider.php'; ?>
+        <!-- Including Left Main Sidebar Container -->
+        <?php include_once 'slider.php'; ?>
+
+    </div> <!-- Closing the wrapper div -->
+
+</body>
+
+</html>
