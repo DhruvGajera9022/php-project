@@ -1,16 +1,19 @@
 <?php
-require_once '../database/config.php';
-session_start();
-session_regenerate_id(true);
+require_once '../../database/config.php';
 
-// Redirect if not logged in
+// Start the session and regenerate session ID to prevent session fixation
+session_start();
+
+// Check if the user is logged in; if not, redirect to the login page
 if (!isset($_SESSION['id'])) {
-    header("Location: ../authentication/login.php");
+    header("Location: ../../authentication/login.php");
     exit;
 }
 
-// Get Session Id
+// Retrieve the logged-in user's ID from the session
 $id = $_SESSION['id'];
+
+// Prepare and execute the SQL statement to fetch the user's data
 $sqlSelect = "SELECT * FROM tbluser WHERE id = ?";
 $stmt = $conn->prepare($sqlSelect);
 if (!$stmt) {
@@ -22,28 +25,27 @@ if (!$stmt->execute()) {
 }
 $res = $stmt->get_result();
 $data = $res->fetch_assoc();
-$stmt->close(); // Close the statement
 
-// Get image and name for slider
+// Sanitize the user's data before displaying it
 $image = htmlspecialchars($data['image']);
 $fname = htmlspecialchars($data['fname']);
 
 $errors = [];  // Initialize errors array
 
-// Initialize form variables
-$fname = $lname = $email = $number = $gender = $dob = $hobby = $role = '';
 
 if (isset($_POST['add'])) {
 
     // Fetch form inputs
-    $fname = htmlspecialchars($_POST['fname']);
-    $lname = htmlspecialchars($_POST['lname']);
-    $email = htmlspecialchars($_POST['email']);
-    $number = htmlspecialchars($_POST['number']);
-    $gender = htmlspecialchars($_POST['gender']);
-    $dob = htmlspecialchars($_POST['dob']);
-    $hobby = isset($_POST['hobby']) ? $_POST['hobby'] : [];
-    $role = htmlspecialchars($_POST['role']);
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $cpassword = $_POST['cpassword'];
+    $number = $_POST['number'];
+    $gender = $_POST['gender'];
+    $dob = $_POST['dob'];
+    $hobby = $_POST['hobby'];
+    $role = $_POST['role'];
 
     // Convert hobbies array to string
     $strHobby = implode(", ", $hobby);
@@ -65,6 +67,18 @@ if (isset($_POST['add'])) {
         $errors['email'] = "Enter email";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = "Enter a valid email";
+    }
+
+    if (empty($password)) {
+        $errors['password'] = "Enter Password";
+    }
+
+    if (empty($cpassword)) {
+        $errors['cpassword'] = "Enter Confirm Password";
+    }
+
+    if ($password != $cpassword) {
+        $errors['compare'] = "Password and Confirm Password should be the same";
     }
 
     if (empty($number)) {
@@ -89,11 +103,14 @@ if (isset($_POST['add'])) {
         $errors['role'] = "Please select role";
     }
 
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    $newDob = date("d-m-Y", strtotime($dob));
+
     // If no errors, proceed with insertion
     if (empty($errors)) {
-        $stmt = $conn->prepare("INSERT INTO tbluser(fname, lname, email, number, gender, dob, hobby, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO tbluser(fname, lname, email, number, password, gender, dob, hobby, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if ($stmt) {
-            $stmt->bind_param("ssssssss", $fname, $lname, $email, $number, $gender, $dob, $strHobby, $role);
+            $stmt->bind_param("sssssssss", $fname, $lname, $email, $number, $passwordHash, $gender, $newDob, $strHobby, $role);
 
             if ($stmt->execute()) {
                 header("Location: users.php");
@@ -109,10 +126,10 @@ if (isset($_POST['add'])) {
 }
 
 // Define title
-$title = "All Users";
+$title = "Users";
 ?>
 
-<?php include_once '../includes/body.php'; ?>
+<?php include_once '../../includes/body.php'; ?>
 
 <div class="content-wrapper">
     <section class="content-header">
@@ -137,50 +154,59 @@ $title = "All Users";
                                 <form method="post" id="formAddUser">
                                     <div class="card-body">
                                         <div class="form-group row">
-                                            <label for="fname" class="col-sm-2 col-form-label">First Name</label>
+                                            <label for="fname" class="col-sm-2 col-form-label">First Name (*)</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name" value="<?php echo htmlspecialchars($fname); ?>">
-                                                <span class="text-danger"><?php echo $errors['fname'] ?? ''; ?></span>
+                                                <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="lname" class="col-sm-2 col-form-label">Last Name</label>
+                                            <label for="lname" class="col-sm-2 col-form-label">Last Name (*)</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Last Name" value="<?php echo htmlspecialchars($lname); ?>">
-                                                <span class="text-danger"><?php echo $errors['lname'] ?? ''; ?></span>
+                                                <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Last Name">
+                                                <?php if (isset($errors['lname'])): ?>
+                                                    <small class="text-danger"><?php echo $errors['lname']; ?></small>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                            <label for="email" class="col-sm-2 col-form-label">Email (*)</label>
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="<?php echo htmlspecialchars($email); ?>">
-                                                <span class="text-danger"><?php echo $errors['email'] ?? ''; ?></span>
+                                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="number" class="col-sm-2 col-form-label">Number</label>
+                                            <label for="password" class="col-sm-2 col-form-label">Password (*)</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="number" name="number" placeholder="Enter Number" value="<?php echo htmlspecialchars($number); ?>">
-                                                <span class="text-danger"><?php echo $errors['number'] ?? ''; ?></span>
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+                                            <label for="cpassword" class="col-sm-2 col-form-label">Confirm Password (*)</label>
+                                            <div class="col-sm-10">
+                                                <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Enter Confirm Password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="number" class="col-sm-2 col-form-label">Phone Number (*)</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="number" name="number" placeholder="Enter Number">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="gender" class="col-sm-2 col-form-label">Gender (*)</label>
                                             <div class="col-sm-10">
                                                 <label for="male">
-                                                    <input type="radio" name="gender" id="male" value="Male" <?php echo ($gender === 'Male') ? 'checked' : ''; ?>> Male
+                                                    <input type="radio" name="gender" id="male" value="Male" checked> Male
                                                 </label>
                                                 <label for="female">
-                                                    <input type="radio" name="gender" id="female" value="Female" <?php echo ($gender === 'Female') ? 'checked' : ''; ?>> Female
+                                                    <input type="radio" name="gender" id="female" value="Female"> Female
                                                 </label>
-                                                <span class="text-danger"><?php echo $errors['gender'] ?? ''; ?></span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
                                             <div class="col-sm-10">
-                                                <input type="date" class="form-control" id="dob" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
-                                                <span class="text-danger"><?php echo $errors['dob'] ?? ''; ?></span>
+                                                <input type="date" class="form-control" id="dob" name="dob">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -195,12 +221,19 @@ $title = "All Users";
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="role" class="col-sm-2 col-form-label">Role</label>
+                                            <label for="role" class="col-sm-2 col-form-label">Role (*)</label>
                                             <div class="col-sm-10">
                                                 <select name="role" id="role" class="form-control">
                                                     <option value="">Select Role</option>
-                                                    <option value="1">Admin</option>
-                                                    <option value="2">User</option>
+
+                                                    <?php
+
+                                                    $sqlSelectRole = "SELECT name FROM tblrole";
+                                                    $resultSelectRole = mysqli_query($conn, $sqlSelectRole);
+                                                    foreach ($resultSelectRole as $result) {
+                                                        echo "<option value='" . $result['name'] . "'>" . $result['name'] . "</option>";
+                                                    }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -218,4 +251,4 @@ $title = "All Users";
     </section>
 </div>
 
-<?php include_once '../includes/footer.php'; ?>
+<?php include_once '../../includes/footer.php'; ?>

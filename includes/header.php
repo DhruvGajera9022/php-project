@@ -46,7 +46,7 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="../assets/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <img src="../../assets/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Brad Diesel
@@ -62,7 +62,7 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="../assets/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <img src="../../assets/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 John Pierce
@@ -78,7 +78,7 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="../assets/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <img src="../../assets/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Nora Silvester
@@ -140,7 +140,7 @@
                 <i><?php echo $fname ?></i>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="profile.php" class="dropdown-item">
+                <a href="../profile/profile.php" class="dropdown-item">
                     <i class="fas fa-user"></i> Profile
                 </a>
                 <div class="dropdown-divider"></div>
@@ -148,7 +148,7 @@
                     <i class="fas fa-key mr-2"></i> Password
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="../authentication/logout.php" class="dropdown-item">
+                <a href="../../authentication/logout.php" class="dropdown-item">
                     <i class='fas fa-sign-out-alt'></i> Logout
                 </a>
             </div>

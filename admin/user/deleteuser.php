@@ -1,6 +1,6 @@
 <?php
 
-require '../database/config.php';
+require '../../database/config.php';
 
 ?>
 
@@ -14,7 +14,7 @@ $query = "DELETE FROM tbluser WHERE id = '$id' ";
 $result = mysqli_query($conn, $query);
 
 if($result){
-    header('location: ../admin/users.php');
+    header('location: users.php');
 }
 
 ?>

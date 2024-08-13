@@ -1,6 +1,6 @@
 <?php
 
-require_once '../database/config.php';
+require_once '../../database/config.php';
 
 session_start();
 
@@ -63,7 +63,7 @@ $active = "active";
 
 ?>
 
-<?php include_once '../includes/body.php'; ?>
+<?php include_once '../../includes/body.php'; ?>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -666,4 +666,4 @@ $active = "active";
 </div>
 
 <!-- Including Footer -->
-<?php include_once '../includes/footer.php'; ?>
+<?php include_once '../../includes/footer.php'; ?>

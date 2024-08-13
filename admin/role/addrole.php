@@ -1,6 +1,6 @@
 <?php
 // Include the database configuration file
-require_once '../database/config.php';
+require_once '../../database/config.php';
 
 // Start the session and regenerate session ID to prevent session fixation
 session_start();
@@ -8,14 +8,12 @@ session_regenerate_id(true);
 
 // Check if the user is logged in; if not, redirect to the login page
 if (!isset($_SESSION['id'])) {
-    header("Location: ../authentication/login.php");
+    header("Location: ../../authentication/login.php");
     exit;
 }
 
-// Retrieve the logged-in user's ID from the session
 $id = $_SESSION['id'];
 
-// Prepare and execute the SQL statement to fetch the user's data
 $sqlSelect = "SELECT * FROM tbluser WHERE id = ?";
 $stmt = $conn->prepare($sqlSelect);
 if (!$stmt) {
@@ -27,26 +25,41 @@ if (!$stmt->execute()) {
 }
 $res = $stmt->get_result();
 $data = $res->fetch_assoc();
+$stmt->close();
 
-// Sanitize the user's data before displaying it
 $image = htmlspecialchars($data['image']);
 $fname = htmlspecialchars($data['fname']);
+
+// Initialize an array to store role names
+$existingRoles = [];
+
+$queryRole = "SELECT name FROM tblrole";
+$stmt = $conn->prepare($queryRole);
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+if (!$stmt->execute()) {
+    die("Execute failed: " . $stmt->error);
+}
+$resRoleName = $stmt->get_result();
+while ($row = $resRoleName->fetch_assoc()) {
+    $existingRoles[] = $row['name'];
+}
+$stmt->close();
 
 // Initialize an array to store error messages
 $error = [];
 
-// Handle the form submission for adding a role
 if (isset($_POST['add'])) {
-    $fullname = $_POST['fullname'];
-    $description = $_POST['description'];
+    $fullname = trim($_POST['fullname']);
+    $description = trim($_POST['description']);
 
-    // Validate form input
     if (empty($fullname)) {
         $error['fullname'] = "Enter Full Name";
     }
 
-    if (empty($description)) {
-        $error['description'] = "Enter Description";
+    if (in_array($fullname, $existingRoles)) {
+        $error['role_name'] = "Role Name already exists";
     }
 
     // If there are no errors, proceed to insert the role into the database
@@ -71,7 +84,7 @@ if (isset($_POST['add'])) {
 $title = "Role";
 ?>
 
-<?php include_once '../includes/body.php'; ?>
+<?php include_once '../../includes/body.php'; ?>
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -100,26 +113,27 @@ $title = "Role";
 
                                 <!-- form start -->
                                 <form method="post" id="formAddRole">
+                                    <?php if (!empty($error)) : ?>
+                                        <div class="alert alert-danger">
+                                            <?php foreach ($error as $err) : ?>
+                                                <p><?php echo $err; ?></p>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="fullname">Full Name</label>
-                                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Full Name" value="<?php echo htmlspecialchars($fullname ?? ''); ?>">
-                                            <?php if (isset($error['fullname'])): ?>
-                                                <span class="text-danger"><?php echo $error['fullname']; ?></span>
-                                            <?php endif; ?>
+                                            <label for="fullname">Role Name (*)</label>
+                                            <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Role">
                                         </div>
                                         <div class="form-group">
                                             <label for="description">Description</label>
-                                            <textarea name="description" class="form-control" id="description" placeholder="Enter Description"><?php echo htmlspecialchars($description ?? ''); ?></textarea>
-                                            <?php if (isset($error['description'])): ?>
-                                                <span class="text-danger"><?php echo $error['description']; ?></span>
-                                            <?php endif; ?>
+                                            <textarea name="description" class="form-control" id="description" placeholder="Enter Description"></textarea>
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
 
                                     <div class="card-footer">
-                                        <button type="submit" name="add" class="btn btn-primary">Submit</button>
+                                        <button type="submit" name="add" class="btn btn-primary">Add</button>
                                     </div>
                                 </form>
 
@@ -135,4 +149,4 @@ $title = "Role";
     </section>
 </div>
 
-<?php include_once '../includes/footer.php'; ?>
+<?php include_once '../../includes/footer.php'; ?>

@@ -5,7 +5,7 @@ require_once '../database/config.php';
 session_start();
 
 if (isset($_SESSION['id'])) {
-  header('Location: ../admin/dashboard.php');
+  header('Location: ../admin/dashboard/dashboard.php');
   exit;
 }
 

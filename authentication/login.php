@@ -4,7 +4,7 @@ require_once '../database/config.php';
 session_start();
 
 if (isset($_SESSION['id'])) {
-  header('Location: ../admin/dashboard.php');
+  header('Location: ../admin/dashboard/dashboard.php');
   exit;
 }
 
@@ -32,7 +32,7 @@ if (isset($_POST['signin'])) {
 
     if ($user && password_verify($password, $user['password'])) {
       $_SESSION["id"] = $user['id'];
-      header('Location: ../admin/dashboard.php');
+      header('Location: ../admin/dashboard/dashboard.php');
       exit();
     } else {
       $errors['email'] = "Please enter registered email and password";

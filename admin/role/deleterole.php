@@ -1,6 +1,6 @@
 <?php
 
-require '../database/config.php';
+require '../../database/config.php';
 
 ?>
 
@@ -14,7 +14,7 @@ $query = "DELETE FROM tblrole WHERE id = '$id' ";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    header('location: ../admin/roles.php');
+    header('location: roles.php');
 }
 
 ?>
