@@ -91,11 +91,6 @@
             'responsive': true,
             'lengthChange': false,
             'autoWidth': false,
-            'searching': {
-                'width': '50 %',
-                'float': 'right',
-                'align': 'right'
-            }
         });
     });
 </script>

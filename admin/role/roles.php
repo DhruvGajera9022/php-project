@@ -35,6 +35,7 @@ if (!$stmt->execute()) {
 }
 $res = $stmt->get_result();
 
+
 $title = "Role";
 
 ?>
@@ -74,8 +75,8 @@ $title = "Role";
                                             <td><?php echo $data['name']; ?></td>
                                             <td><?php echo $data['description']; ?></td>
                                             <td>
-                                                <a href="editrole.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
-                                                <a href="deleterole.php?id=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+                                                <a href="addrole.php?id=<?php $data['id']; ?>" class="btn btn-success">Edit</a>
+                                                <a href="addrole.php?idd=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
                                             </td>
                                         </tr>
                                     <?php } ?>
