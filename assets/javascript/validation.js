@@ -140,7 +140,10 @@ $(document).ready(function () {
 
     $formAddUser.validate({
         rules: {
-            name: {
+            fname: {
+                required: true
+            },
+            lname: {
                 required: true
             },
             email: {
@@ -149,19 +152,22 @@ $(document).ready(function () {
             number: {
                 required: true
             },
-            gender: {
+            password: {
                 required: true
             },
-            dob: {
+            cpassword: {
                 required: true
             },
-            hobby: {
+            role: {
                 required: true
             }
         },
         messages: {
-            name: {
-                required: "Name must be required"
+            fname: {
+                required: "First Name must be required"
+            },
+            lname: {
+                required: "Last Name must be required"
             },
             email: {
                 required: "Email must be required"
@@ -169,14 +175,14 @@ $(document).ready(function () {
             number: {
                 required: "Number must be required"
             },
-            gender: {
-                required: "Gender must be required"
+            password: {
+                required: "Password must be required"
             },
-            dob: {
-                required: "Date of Birth must be required"
+            cpassword: {
+                required: "Confirm Password must be required"
             },
-            hobby: {
-                required: "Hobby must be required"
+            role: {
+                required: "Role must be required"
             }
         }
     });

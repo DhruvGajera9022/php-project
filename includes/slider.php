@@ -27,9 +27,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="users.php" class="nav-link <?php echo $title == 'All Users' ? 'active' : ''; ?>">
+                    <a href="users.php" class="nav-link <?php echo $title == 'Users' ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-user-alt"></i>
-                        <p>All Users</p>
+                        <p>Users</p>
                     </a>
                 </li>
                 <li class="nav-item">

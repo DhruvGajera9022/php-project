@@ -9,7 +9,7 @@
     <?php include_once 'head.php'; ?>
 
     <style>
-        .error{
+        .error {
             color: red;
             font-weight: 100;
         }
