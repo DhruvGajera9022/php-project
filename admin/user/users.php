@@ -97,8 +97,8 @@ $active = "active";
                                             <td><?php echo $data['hobby']; ?></td>
                                             <td><?php echo $data['role']; ?></td>
                                             <td>
-                                                <a href="edituser.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
-                                                <a href="deleteuser.php?id=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+                                                <a href="adduser.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
+                                                <a href="adduser.php?idd=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
                                             </td>
                                         </tr>
                                     <?php } ?>
