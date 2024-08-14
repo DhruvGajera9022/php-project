@@ -1,5 +1,7 @@
 <?php
+
 require_once '../../database/config.php';
+
 session_start();
 session_regenerate_id(true);
 
@@ -25,23 +27,14 @@ $image = $data['image'];
 $fname = $data['fname'];
 $role = $data['role'];
 
-// Fetch the role tables value and display in table
-$query = "SELECT * FROM tblrole";
-$stmt = $conn->prepare($query);
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-if (!$stmt->execute()) {
-    die("Execute failed: " . $stmt->error);
-}
-$res = $stmt->get_result();
 
 
-$title = "Role";
+$title = "Products";
 
 ?>
 
 <?php include_once '../../includes/body.php'; ?>
+
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -61,8 +54,8 @@ $title = "Role";
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex flex-row-reverse"><a href="addrole.php" class="btn btn-primary">Add</a></div>
-                            <table id="tablerole" class="table table-bordered table-hover">
+                            <div class="d-flex flex-row-reverse"><a href="addproduct.php" class="btn btn-primary">Add</a></div>
+                            <table id="tableProduct" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Role Name</th>
@@ -90,5 +83,11 @@ $title = "Role";
         </div>
     </section>
 </div>
+
+
+
+
+
+
 
 <?php include_once '../../includes/footer.php'; ?>

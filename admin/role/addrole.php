@@ -30,6 +30,7 @@ $stmt->close();
 
 $image = $data['image'];
 $fname = $data['fname'];
+$role = $data['role'];
 
 // Initialize an array to store role names
 $existingRoles = [];

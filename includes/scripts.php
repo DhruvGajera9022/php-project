@@ -92,5 +92,10 @@
             'lengthChange': false,
             'autoWidth': false,
         });
+        $("#tableProduct").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+        });
     });
 </script>

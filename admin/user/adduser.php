@@ -29,6 +29,7 @@ $data = $res->fetch_assoc();
 // Sanitize the user's data before displaying it
 $image = $data['image'];
 $fname = $data['fname'];
+$role = $data['role'];
 
 $upid = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
 

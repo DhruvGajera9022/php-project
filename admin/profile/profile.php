@@ -32,6 +32,7 @@ $fetchNewDob = date("Y-m-d", strtotime($fetchDob));
 
 $image = $data['image'];
 $fname = $data['fname'];
+$role = $data['role'];
 
 $errors = [];
 

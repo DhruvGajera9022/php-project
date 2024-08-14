@@ -17,6 +17,7 @@ $data = $res->fetch_assoc();
 
 $image = $data['image'];
 $fname = $data['fname'];
+$role = $data['role'];
 
 $errors = [];
 

@@ -30,6 +30,7 @@ $data = $res->fetch_assoc();
 // Sanitize the user's data before displaying it
 $image = $data['image'];
 $fname = $data['fname'];
+$role = $data['role'];
 
 // Prepare and execute the SQL statement to fetch all users along with their roles
 $query = " SELECT * FROM tbluser";

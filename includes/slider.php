@@ -26,16 +26,26 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <?php if ($role == "Admin") { ?>
+
+                    <li class="nav-item">
+                        <a href="../user/users.php" class="nav-link <?php echo $title == 'Users' ? 'active' : ''; ?>">
+                            <i class="nav-icon fas fa-user-alt"></i>
+                            <p>Users</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../role/roles.php" class="nav-link <?php echo $title == 'Role' ? 'active' : ''; ?>">
+                            <i class="nav-icon 	fas fa-user-cog"></i>
+                            <p>Roles</p>
+                        </a>
+                    </li>
+
+                <?php } ?>
                 <li class="nav-item">
-                    <a href="../user/users.php" class="nav-link <?php echo $title == 'Users' ? 'active' : ''; ?>">
-                        <i class="nav-icon fas fa-user-alt"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../role/roles.php" class="nav-link <?php echo $title == 'Role' ? 'active' : ''; ?>">
-                        <i class="nav-icon fas fa-user-alt"></i>
-                        <p>Roles</p>
+                    <a href="../product/products.php" class="nav-link <?php echo $title == 'Products' ? 'active' : ''; ?>">
+                        <i class="nav-icon fab fa-product-hunt"></i>
+                        <p>Products</p>
                     </a>
                 </li>
             </ul>
