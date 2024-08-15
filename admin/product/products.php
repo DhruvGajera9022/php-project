@@ -27,7 +27,15 @@ $image = $data['image'];
 $fname = $data['fname'];
 $role = $data['role'];
 
-
+$query = "SELECT * FROM tblmaster";
+$stmt = $conn->prepare($query);
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+if (!$stmt->execute()) {
+    die("Execute failed: " . $stmt->error);
+}
+$res = $stmt->get_result();
 
 $title = "Products";
 
@@ -42,7 +50,7 @@ $title = "Products";
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Role</h1>
+                    <h1>Master</h1>
                 </div>
             </div>
         </div>
@@ -58,19 +66,35 @@ $title = "Products";
                             <table id="tableProduct" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Role Name</th>
-                                        <th>Description</th>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Slug</th>
+                                        <th>Category</th>
+                                        <th>Size</th>
+                                        <th>Color</th>
+                                        <th>Weight</th>
+                                        <th>Old Price</th>
+                                        <th>New Price</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php while ($data = $res->fetch_assoc()) { ?>
                                         <tr>
+                                            <td><img src="../../assets/img/productimage/<?php echo $data['images']; ?>" height="50px" alt="product image"></td>
                                             <td><?php echo $data['name']; ?></td>
-                                            <td><?php echo $data['description']; ?></td>
+                                            <td><?php echo $data['slug']; ?></td>
+                                            <td><?php echo $data['category']; ?></td>
+                                            <td><?php echo $data['size']; ?></td>
+                                            <td><input type="color" name="" id="" disabled value="<?php echo $data['color']; ?>"></td>
+                                            <td><?php echo $data['weight']; ?></td>
+                                            <td><?php echo $data['oldprice']; ?></td>
+                                            <td><?php echo $data['newprice']; ?></td>
+                                            <td><?php echo $data['status']; ?></td>
                                             <td>
-                                                <a href="addrole.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
-                                                <a href="addrole.php?idd=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+                                                <a href="addproduct.php?id=<?php echo $data['id']; ?>" class="btn btn-success">Edit</a>
+                                                <a href="addproduct.php?idd=<?php echo $data['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
                                             </td>
                                         </tr>
                                     <?php } ?>

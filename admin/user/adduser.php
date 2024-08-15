@@ -298,6 +298,7 @@ $title = "Users";
                                                                                                                                                         endif; ?>">
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
                                             <label for="lname" class="col-sm-2 col-form-label">Last Name (*)</label>
                                             <div class="col-sm-10">
@@ -309,6 +310,7 @@ $title = "Users";
                                                 <?php endif; ?>
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
                                             <label for="email" class="col-sm-2 col-form-label">Email (*)</label>
                                             <div class="col-sm-10">
@@ -317,6 +319,7 @@ $title = "Users";
                                                                                                                                                     endif; ?>">
                                             </div>
                                         </div>
+
                                         <?php if (!$upid) { ?>
                                             <div class="form-group row">
                                                 <label for="password" class="col-sm-2 col-form-label">Password (*)</label>
@@ -339,6 +342,7 @@ $title = "Users";
                                                                                                                                                     endif; ?>">
                                             </div>
                                         </div>
+
                                         <?php if (!$upid) { ?>
                                             <div class="form-group row">
                                                 <label for="gender" class="col-sm-2 col-form-label">Gender (*)</label>
@@ -364,6 +368,7 @@ $title = "Users";
                                                 </div>
                                             </div>
                                         <?php } ?>
+
                                         <div class="form-group row">
                                             <label for="dob" class="col-sm-2 col-form-label">Date of Birth</label>
                                             <div class="col-sm-10">
@@ -372,30 +377,32 @@ $title = "Users";
                                                                                                                     endif; ?>">
                                             </div>
                                         </div>
+
                                         <?php if (!$upid) { ?>
                                             <div class="form-group row">
-                                            <label for="hobby" class="col-sm-2 col-form-label">Hobbies</label>
-                                            <div class="col-sm-10">
-                                                <label for="singing"><input type="checkbox" name="hobby[]" value="Singing" id="singing"> Singing</label>
-                                                <label for="dancing"><input type="checkbox" name="hobby[]" value="Dancing" id="dancing"> Dancing</label>
-                                                <label for="writing"><input type="checkbox" name="hobby[]" value="Writing" id="writing"> Writing</label>
-                                                <label for="reading"><input type="checkbox" name="hobby[]" value="Reading" id="reading"> Reading</label>
-                                                <label for="swimming"><input type="checkbox" name="hobby[]" value="Swimming" id="swimming"> Swimming</label>
-                                                <label for="travelling"><input type="checkbox" name="hobby[]" value="Travelling" id="travelling"> Travelling</label>
+                                                <label for="hobby" class="col-sm-2 col-form-label">Hobbies</label>
+                                                <div class="col-sm-10">
+                                                    <label for="singing"><input type="checkbox" name="hobby[]" value="Singing" id="singing"> Singing</label>
+                                                    <label for="dancing"><input type="checkbox" name="hobby[]" value="Dancing" id="dancing"> Dancing</label>
+                                                    <label for="writing"><input type="checkbox" name="hobby[]" value="Writing" id="writing"> Writing</label>
+                                                    <label for="reading"><input type="checkbox" name="hobby[]" value="Reading" id="reading"> Reading</label>
+                                                    <label for="swimming"><input type="checkbox" name="hobby[]" value="Swimming" id="swimming"> Swimming</label>
+                                                    <label for="travelling"><input type="checkbox" name="hobby[]" value="Travelling" id="travelling"> Travelling</label>
+                                                </div>
                                             </div>
-                                        </div>
                                         <?php } else { ?>
                                             <div class="form-group row">
-                                            <label for="hobby" class="col-sm-2 col-form-label">Hobbies</label>
-                                            <div class="col-sm-10">
-                                                <label for="singing"><input type="checkbox" name="hobby[]" value="Singing" id="singing" <?php echo in_array("Singing", $fetchHobby) ? "checked" : ""; ?>> Singing</label>
-                                                <label for="dancing"><input type="checkbox" name="hobby[]" value="Dancing" id="dancing" <?php echo in_array("Dancing", $fetchHobby) ? "checked" : ""; ?>> Dancing</label>
-                                                <label for="writing"><input type="checkbox" name="hobby[]" value="Writing" id="writing" <?php echo in_array("Writing", $fetchHobby) ? "checked" : ""; ?>> Writing</label>
-                                                <label for="reading"><input type="checkbox" name="hobby[]" value="Reading" id="reading" <?php echo in_array("Reading", $fetchHobby) ? "checked" : ""; ?>> Reading</label>
-                                                <label for="swimming"><input type="checkbox" name="hobby[]" value="Swimming" id="swimming" <?php echo in_array("Swimming", $fetchHobby) ? "checked" : ""; ?>> Swimming</label>
-                                                <label for="travelling"><input type="checkbox" name="hobby[]" value="Travelling" id="travelling" <?php echo in_array("Travelling", $fetchHobby) ? "checked" : ""; ?>> Travelling</label>
+                                                <label for="hobby" class="col-sm-2 col-form-label">Hobbies</label>
+                                                <div class="col-sm-10">
+                                                    <label for="singing"><input type="checkbox" name="hobby[]" value="Singing" id="singing" <?php echo in_array("Singing", $fetchHobby) ? "checked" : ""; ?>> Singing</label>
+                                                    <label for="dancing"><input type="checkbox" name="hobby[]" value="Dancing" id="dancing" <?php echo in_array("Dancing", $fetchHobby) ? "checked" : ""; ?>> Dancing</label>
+                                                    <label for="writing"><input type="checkbox" name="hobby[]" value="Writing" id="writing" <?php echo in_array("Writing", $fetchHobby) ? "checked" : ""; ?>> Writing</label>
+                                                    <label for="reading"><input type="checkbox" name="hobby[]" value="Reading" id="reading" <?php echo in_array("Reading", $fetchHobby) ? "checked" : ""; ?>> Reading</label>
+                                                    <label for="swimming"><input type="checkbox" name="hobby[]" value="Swimming" id="swimming" <?php echo in_array("Swimming", $fetchHobby) ? "checked" : ""; ?>> Swimming</label>
+                                                    <label for="travelling"><input type="checkbox" name="hobby[]" value="Travelling" id="travelling" <?php echo in_array("Travelling", $fetchHobby) ? "checked" : ""; ?>> Travelling</label>
+                                                </div>
                                             </div>
-                                        </div>
+
                                         <?php } ?>
                                         <div class="form-group row">
                                             <label for="role" class="col-sm-2 col-form-label">Role (*)</label>
@@ -416,12 +423,13 @@ $title = "Users";
                                                 </select>
                                             </div>
                                         </div>
+
                                     </div>
                                     <div class="card-footer">
-                                    <div class="card-footer">
-                                        <button type="submit" name="<?php echo $NAME; ?>" class="btn btn-primary">
-                                            <?php echo $NAME; ?></button>
-                                    </div>
+                                        <div class="card-footer">
+                                            <button type="submit" name="<?php echo $NAME; ?>" class="btn btn-primary">
+                                                <?php echo $NAME; ?></button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>

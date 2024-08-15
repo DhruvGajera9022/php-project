@@ -53,6 +53,14 @@
 
 <script src="../../assets/javascript/validation.js"></script>
 
+<!-- Summernote -->
+<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
+<!-- CodeMirror -->
+<script src="../../plugins/codemirror/codemirror.js"></script>
+<script src="../../plugins/codemirror/mode/css/css.js"></script>
+<script src="../../plugins/codemirror/mode/xml/xml.js"></script>
+<script src="../../plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -69,6 +77,11 @@
 <script src="../../assets/javascript/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../assets/javascript/demo.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Page specific script -->
 <script>
     $(function() {
@@ -97,5 +110,23 @@
             "lengthChange": false,
             "autoWidth": false,
         });
+        $("#pdescription").summernote({
+            placeholder: "Write your content here",
+            height: 70,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+
+        function showContent() {
+            const content = $("#pdescription").summernote("code");
+            $("#pdescription").html(content);
+        }
     });
 </script>

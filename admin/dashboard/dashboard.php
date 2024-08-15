@@ -5,7 +5,7 @@ require_once '../../database/config.php';
 session_start();
 
 if (!isset($_SESSION['id'])) {
-    header("Location: ../authentication/login.php");
+    header("Location: ../../authentication/login.php");
     exit;
 }
 

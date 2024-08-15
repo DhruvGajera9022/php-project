@@ -6,6 +6,7 @@ $(document).ready(function () {
     var $settings = $("#formProfile");
     var $formAddRole = $("#formAddRole");
     var $formAddUser = $("#formAddUser");
+    var $pform = $("#pform");
 
     $registerForm.validate({
         rules: {
@@ -187,5 +188,71 @@ $(document).ready(function () {
         }
     });
 
+    $pform.validate({
+        rules: {
+            pname: {
+                required: true
+            },
+            pdescription: {
+                required: true
+            },
+            pslug: {
+                required: true
+            },
+            pcategory: {
+                required: true
+            },
+            psize: {
+                required: true
+            },
+            pweight: {
+                required: true
+            },
+            poldprice: {
+                required: true
+            },
+            pnewprice: {
+                required: true
+            },
+            pimage: {
+                required: true
+            },
+            pstatus: {
+                required: true
+            },
+        },
+        messages: {
+            pname: {
+                required: "Product Name must be required"
+            },
+            pdescription: {
+                required: "Product Description must be required"
+            },
+            pslug: {
+                required: "Product Slug must be required"
+            },
+            pcategory: {
+                required: "Product Category must be required"
+            },
+            psize: {
+                required: "Product Size must be required"
+            },
+            pweight: {
+                required: "Product Weight must be required"
+            },
+            poldprice: {
+                required: "Product Old Price must be required"
+            },
+            pnewprice: {
+                required: "Product New Price must be required"
+            },
+            pimage: {
+                required: "Product Image must be required"
+            },
+            pstatus: {
+                required: "Product Status must be required"
+            },
+        },
+    });
 
 });

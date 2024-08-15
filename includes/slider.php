@@ -45,7 +45,7 @@
                 <li class="nav-item">
                     <a href="../product/products.php" class="nav-link <?php echo $title == 'Products' ? 'active' : ''; ?>">
                         <i class="nav-icon fab fa-product-hunt"></i>
-                        <p>Products</p>
+                        <p>Master</p>
                     </a>
                 </li>
             </ul>
