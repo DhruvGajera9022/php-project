@@ -340,7 +340,7 @@ $title = "Products";
 
                                         <!-- Product Name -->
                                         <div class="form-group row">
-                                            <label for="pname" class="col-sm-2 col-form-label">Product Name (*)</label>
+                                            <label for="pname" class="col-sm-2 col-form-label">Product Name <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="pname" id="pname" class="form-control" value="<?php echo $upid ? $data['name'] : ''; ?>">
                                             </div>
@@ -348,7 +348,7 @@ $title = "Products";
 
                                         <!-- Product Description -->
                                         <div class="form-group row">
-                                            <label for="pdescription" class="col-sm-2 col-form-label">Product Description (*)</label>
+                                            <label for="pdescription" class="col-sm-2 col-form-label">Product Description <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <textarea name="pdescription" id="pdescription" class="form-control">
             <?php echo $upid ? $data['description'] : ''; ?>
@@ -358,7 +358,7 @@ $title = "Products";
 
                                         <!-- Product Slug -->
                                         <div class="form-group row">
-                                            <label for="pslug" class="col-sm-2 col-form-label">Product Slug (*)</label>
+                                            <label for="pslug" class="col-sm-2 col-form-label">Product Slug <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="pslug" id="pslug" class="form-control" value="<?php echo $upid ? $data['slug'] : ''; ?>">
                                             </div>
@@ -366,7 +366,7 @@ $title = "Products";
 
                                         <!-- Product Category -->
                                         <div class="form-group row">
-                                            <label for="pcategory" class="col-sm-2 col-form-label">Category (*)</label>
+                                            <label for="pcategory" class="col-sm-2 col-form-label">Category <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <select name="pcategory" id="pcategory" class="form-control">
                                                     <option value="">Select Category</option>
@@ -404,7 +404,7 @@ $title = "Products";
 
                                         <!-- Product Size -->
                                         <div class="form-group row">
-                                            <label for="psize" class="col-sm-2 col-form-label">Size (*)</label>
+                                            <label for="psize" class="col-sm-2 col-form-label">Size <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <select name="psize" id="psize" class="form-control">
                                                     <option value="">Select Size</option>
@@ -438,7 +438,7 @@ $title = "Products";
 
                                         <!-- Product Color -->
                                         <div class="form-group row">
-                                            <label for="pcolor" class="col-sm-2 col-form-label">Color (*)</label>
+                                            <label for="pcolor" class="col-sm-2 col-form-label">Color <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="color" name="pcolor" id="pcolor" class="form-control" value="<?php echo $upid ? $data['color'] : ''; ?>">
                                             </div>
@@ -446,7 +446,7 @@ $title = "Products";
 
                                         <!-- Product Weight -->
                                         <div class="form-group row">
-                                            <label for="pweight" class="col-sm-2 col-form-label">Weigth (*)</label>
+                                            <label for="pweight" class="col-sm-2 col-form-label">Weigth <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="number" name="pweight" id="pweight" class="form-control" value="<?php echo $upid ? $data['weight'] : ''; ?>">
                                             </div>
@@ -454,7 +454,7 @@ $title = "Products";
 
                                         <!-- Product Old Price -->
                                         <div class="form-group row">
-                                            <label for="poldprice" class="col-sm-2 col-form-label">Old Price (*)</label>
+                                            <label for="poldprice" class="col-sm-2 col-form-label">Old Price <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="number" name="poldprice" id="poldprice" class="form-control" value="<?php echo $upid ? $data['oldprice'] : ''; ?>">
                                             </div>
@@ -462,7 +462,7 @@ $title = "Products";
 
                                         <!-- Product New Price -->
                                         <div class="form-group row">
-                                            <label for="pnewprice" class="col-sm-2 col-form-label">New Price (*)</label>
+                                            <label for="pnewprice" class="col-sm-2 col-form-label">New Price <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="number" name="pnewprice" id="pnewprice" class="form-control" value="<?php echo $upid ? $data['newprice'] : ''; ?>">
                                             </div>
@@ -470,9 +470,9 @@ $title = "Products";
 
                                         <!-- Product Image -->
                                         <div class="form-group row">
-                                            <label for="inputImage" class="col-sm-2 col-form-label">Product Image (*)</label>
+                                            <label for="inputImage" class="col-sm-2 col-form-label">Product Image <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
-                                                <input type="file" class="form-control" name="image" id="inputImage">
+                                                <input type="file" class="form-control" name="image" id="inputImage" multiple>
                                                 <input type="hidden" name="image_old" value="<?php if (!$upid): echo "";
                                                                                                 else: echo $data['images'];
                                                                                                 endif ?>">
@@ -481,9 +481,9 @@ $title = "Products";
 
                                         <!-- Product Status -->
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Status (*)</label>
+                                            <label class="col-sm-2 col-form-label">Status <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
-                                                <label for="pstatus"><input type="checkbox" name="pstatus[]" id="pstatus" value="Active" <?php echo $upid ? in_array("Active", $fetchStatus) ? "checked" : "" : '' ?>> Active</label>
+                                                <label for="pstatus" class="col-sm-2 col-form-label"><input type="checkbox" name="pstatus[]" id="pstatus" value="Active" <?php echo $upid ? in_array("Active", $fetchStatus) ? "checked" : "" : '' ?>> Active</label>
                                             </div>
                                         </div>
                                     </div>

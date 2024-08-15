@@ -291,7 +291,7 @@ $title = "Users";
                                     <?php endif; ?>
                                     <div class="card-body">
                                         <div class="form-group row">
-                                            <label for="fname" class="col-sm-2 col-form-label">First Name (*)</label>
+                                            <label for="fname" class="col-sm-2 col-form-label">First Name <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name" value="<?php if (!$upid): echo "";
                                                                                                                                                         else: echo $DATA['fname'];
@@ -300,7 +300,7 @@ $title = "Users";
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="lname" class="col-sm-2 col-form-label">Last Name (*)</label>
+                                            <label for="lname" class="col-sm-2 col-form-label">Last Name <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Last Name" value="<?php if (!$upid): echo "";
                                                                                                                                                         else: echo $DATA['lname'];
@@ -312,7 +312,7 @@ $title = "Users";
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="email" class="col-sm-2 col-form-label">Email (*)</label>
+                                            <label for="email" class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" value="<?php if (!$upid): echo "";
                                                                                                                                                     else: echo $DATA['email'];
@@ -322,20 +322,20 @@ $title = "Users";
 
                                         <?php if (!$upid) { ?>
                                             <div class="form-group row">
-                                                <label for="password" class="col-sm-2 col-form-label">Password (*)</label>
+                                                <label for="password" class="col-sm-2 col-form-label">Password <span class="text-danger">*</span></label>
                                                 <div class="col-sm-10">
                                                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="cpassword" class="col-sm-2 col-form-label">Confirm Password (*)</label>
+                                                <label for="cpassword" class="col-sm-2 col-form-label">Confirm Password <span class="text-danger">*</span></label>
                                                 <div class="col-sm-10">
                                                     <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Enter Confirm Password">
                                                 </div>
                                             </div>
                                         <?php } ?>
                                         <div class="form-group row">
-                                            <label for="number" class="col-sm-2 col-form-label">Phone Number (*)</label>
+                                            <label for="number" class="col-sm-2 col-form-label">Phone Number <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="number" name="number" placeholder="Enter Number" value="<?php if (!$upid): echo "";
                                                                                                                                                     else: echo $DATA['number'];
@@ -345,7 +345,7 @@ $title = "Users";
 
                                         <?php if (!$upid) { ?>
                                             <div class="form-group row">
-                                                <label for="gender" class="col-sm-2 col-form-label">Gender (*)</label>
+                                                <label for="gender" class="col-sm-2 col-form-label">Gender <span class="text-danger">*</span></label>
                                                 <div class="col-sm-10">
                                                     <label for="male">
                                                         <input type="radio" name="gender" id="male" value="Male" checked> Male
@@ -357,7 +357,7 @@ $title = "Users";
                                             </div>
                                         <?php } else { ?>
                                             <div class="form-group row">
-                                                <label for="gender" class="col-sm-2 col-form-label">Gender (*)</label>
+                                                <label for="gender" class="col-sm-2 col-form-label">Gender <span class="text-danger">*</span></label>
                                                 <div class="col-sm-10">
                                                     <label for="male">
                                                         <input type="radio" name="gender" id="male" value="Male" <?php if ($DATA['gender'] == "Male") { ?> checked="true" <?php } ?>> Male
@@ -405,7 +405,7 @@ $title = "Users";
 
                                         <?php } ?>
                                         <div class="form-group row">
-                                            <label for="role" class="col-sm-2 col-form-label">Role (*)</label>
+                                            <label for="role" class="col-sm-2 col-form-label">Role <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <select name="role" id="role" class="form-control">
                                                     <option value="">Select Role</option>

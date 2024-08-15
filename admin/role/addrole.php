@@ -190,7 +190,7 @@ $title = "Role";
                                     <?php endif; ?>
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="fullname">Role Name (*)</label>
+                                            <label for="fullname">Role Name <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Enter Role" value="<?php if (!$upid): echo "";
                                                                                                                                                     else: echo $data['name'];
                                                                                                                                                     endif; ?>">
