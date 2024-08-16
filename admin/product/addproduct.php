@@ -372,7 +372,7 @@ $title = "Products";
             </div>
         </div>
     </section>
-    <!-- Main content -->
+    <!-- Main content -->>
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -415,97 +415,109 @@ $title = "Products";
 
                                         <!-- Product Slug -->
                                         <div class="form-group row">
-                                            <label for="pslug" class="col-sm-2 col-form-label">Product Slug <span class="text-danger">*</span></label>
+                                            <label for="pslug" class="col-sm-2 col-form-label ">Product Slug <span class="text-danger">*</span></label>
                                             <div class="col-sm-10">
                                                 <input type="text" name="pslug" id="pslug" class="form-control" value="<?php echo $upid ? $data['slug'] : ''; ?>">
                                             </div>
                                         </div>
 
-                                        <!-- Product Category -->
-                                        <div class="form-group row">
-                                            <label for="pcategory" class="col-sm-2 col-form-label">Category <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <select name="pcategory" id="pcategory" class="form-control">
-                                                    <option value="">Select Category</option>
-                                                    <option value="Cloths" <?php if (!$upid) {
-                                                                            } else {
-                                                                                if ($data['category'] == "Cloths") echo 'selected="selected"';
-                                                                            } ?>>Cloths</option>
-                                                    <option value="Shoes" <?php if (!$upid) {
-                                                                            } else {
-                                                                                if ($data['category'] == "Shoes") echo 'selected="selected"';
-                                                                            } ?>>Shoes</option>
-                                                    <option value="Toys" <?php if (!$upid) {
-                                                                            } else {
-                                                                                if ($data['category'] == "Toys") echo 'selected="selected"';
-                                                                            } ?>>Toys</option>
-                                                    <option value="Mobiles" <?php if (!$upid) {
-                                                                            } else {
-                                                                                if ($data['category'] == "Mobiles") echo 'selected="selected"';
-                                                                            } ?>>Mobiles</option>
-                                                    <option value="Laptops" <?php if (!$upid) {
-                                                                            } else {
-                                                                                if ($data['category'] == "Laptops") echo 'selected="selected"';
-                                                                            } ?>>Laptops</option>
-                                                    <option value="Grocery<?php if (!$upid) {
-                                                                            } else {
-                                                                                if ($data['category'] == "Grocery") echo 'selected="selected"';
-                                                                            } ?>">Grocery</option>
-                                                    <option value="Stationery" <?php if (!$upid) {
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <!-- Product Category -->
+                                                <div class="form-group row">
+                                                    <label for="pcategory" class="col-sm-2 col-form-label col-sm-3">Category <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="pcategory" id="pcategory" class="form-control">
+                                                            <option value="">Select Category</option>
+                                                            <option value="Cloths" <?php if (!$upid) {
+                                                                                    } else {
+                                                                                        if ($data['category'] == "Cloths") echo 'selected="selected"';
+                                                                                    } ?>>Cloths</option>
+                                                            <option value="Shoes" <?php if (!$upid) {
+                                                                                    } else {
+                                                                                        if ($data['category'] == "Shoes") echo 'selected="selected"';
+                                                                                    } ?>>Shoes</option>
+                                                            <option value="Toys" <?php if (!$upid) {
+                                                                                    } else {
+                                                                                        if ($data['category'] == "Toys") echo 'selected="selected"';
+                                                                                    } ?>>Toys</option>
+                                                            <option value="Mobiles" <?php if (!$upid) {
+                                                                                    } else {
+                                                                                        if ($data['category'] == "Mobiles") echo 'selected="selected"';
+                                                                                    } ?>>Mobiles</option>
+                                                            <option value="Laptops" <?php if (!$upid) {
+                                                                                    } else {
+                                                                                        if ($data['category'] == "Laptops") echo 'selected="selected"';
+                                                                                    } ?>>Laptops</option>
+                                                            <option value="Grocery<?php if (!$upid) {
+                                                                                    } else {
+                                                                                        if ($data['category'] == "Grocery") echo 'selected="selected"';
+                                                                                    } ?>">Grocery</option>
+                                                            <option value="Stationery" <?php if (!$upid) {
+                                                                                        } else {
+                                                                                            if ($data['category'] == "Stationery") echo 'selected="selected"';
+                                                                                        } ?>>Stationery</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Product Size -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    <label for="psize" class="col-sm-2 col-form-label col-sm-3">Size <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <select name="psize" id="psize" class="form-control">
+                                                            <option value="">Select Size</option>
+                                                            <option value="XS" <?php if (!$upid) {
                                                                                 } else {
-                                                                                    if ($data['category'] == "Stationery") echo 'selected="selected"';
-                                                                                } ?>>Stationery</option>
-                                                </select>
+                                                                                    if ($data['size'] == "XS") echo 'selected="selected"';
+                                                                                } ?>>XS</option>
+                                                            <option value="S" <?php if (!$upid) {
+                                                                                } else {
+                                                                                    if ($data['size'] == "S") echo 'selected="selected"';
+                                                                                } ?>>S</option>
+                                                            <option value="M" <?php if (!$upid) {
+                                                                                } else {
+                                                                                    if ($data['size'] == "M") echo 'selected="selected"';
+                                                                                } ?>>M</option>
+                                                            <option value="L" <?php if (!$upid) {
+                                                                                } else {
+                                                                                    if ($data['size'] == "L") echo 'selected="selected"';
+                                                                                } ?>>L</option>
+                                                            <option value="XL" <?php if (!$upid) {
+                                                                                } else {
+                                                                                    if ($data['size'] == "XL") echo 'selected="selected"';
+                                                                                } ?>>XL</option>
+                                                            <option value="XXL" <?php if (!$upid) {
+                                                                                } else {
+                                                                                    if ($data['size'] == "XXL") echo 'selected="selected"';
+                                                                                } ?>>XXL</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <!-- Product Size -->
-                                        <div class="form-group row">
-                                            <label for="psize" class="col-sm-2 col-form-label">Size <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <select name="psize" id="psize" class="form-control">
-                                                    <option value="">Select Size</option>
-                                                    <option value="XS" <?php if (!$upid) {
-                                                                        } else {
-                                                                            if ($data['size'] == "XS") echo 'selected="selected"';
-                                                                        } ?>>XS</option>
-                                                    <option value="S" <?php if (!$upid) {
-                                                                        } else {
-                                                                            if ($data['size'] == "S") echo 'selected="selected"';
-                                                                        } ?>>S</option>
-                                                    <option value="M" <?php if (!$upid) {
-                                                                        } else {
-                                                                            if ($data['size'] == "M") echo 'selected="selected"';
-                                                                        } ?>>M</option>
-                                                    <option value="L" <?php if (!$upid) {
-                                                                        } else {
-                                                                            if ($data['size'] == "L") echo 'selected="selected"';
-                                                                        } ?>>L</option>
-                                                    <option value="XL" <?php if (!$upid) {
-                                                                        } else {
-                                                                            if ($data['size'] == "XL") echo 'selected="selected"';
-                                                                        } ?>>XL</option>
-                                                    <option value="XXL" <?php if (!$upid) {
-                                                                        } else {
-                                                                            if ($data['size'] == "XXL") echo 'selected="selected"';
-                                                                        } ?>>XXL</option>
-                                                </select>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <!-- Product Color -->
+                                                <div class="form-group row">
+                                                    <label for="pcolor" class="col-sm-2 col-form-label col-sm-3">Color <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="color" name="pcolor" id="pcolor" class="form-control" value="<?php echo $upid ? $data['color'] : ''; ?>">
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <!-- Product Color -->
-                                        <div class="form-group row">
-                                            <label for="pcolor" class="col-sm-2 col-form-label">Color <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <input type="color" name="pcolor" id="pcolor" class="form-control" value="<?php echo $upid ? $data['color'] : ''; ?>">
-                                            </div>
-                                        </div>
-
-                                        <!-- Product Weight -->
-                                        <div class="form-group row">
-                                            <label for="pweight" class="col-sm-2 col-form-label">Weigth <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <input type="number" name="pweight" id="pweight" class="form-control" value="<?php echo $upid ? $data['weight'] : ''; ?>">
+                                            <!-- Product Weight -->
+                                            <div class="col-sm-6">
+                                                <div class="form-group row">
+                                                    <label for="pweight" class="col-sm-2 col-form-label col-sm-3">Weigth <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="pweight" id="pweight" class="form-control" value="<?php echo $upid ? $data['weight'] : ''; ?>">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -534,25 +546,26 @@ $title = "Products";
 
                                         <!-- Product Image - Status -->
                                         <div class="row">
+                                            <!-- Product Image -->
                                             <div class="col-sm-6">
-                                                <!-- Product Image -->
                                                 <div class="form-group row">
-                                                    <label for="inputImage" class="col-sm-2 col-form-label col-sm-3">Product Image <span class="text-danger">*</span></label>
+                                                    <label for="inputImage" class="col-sm-3 col-form-label">Product Image <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
                                                         <input type="file" class="form-control" name="image[]" id="inputImage" multiple>
-                                                        <input type="hidden" name="image_old" value="<?php if (!$upid): echo "";
-                                                                                                        else: echo $data['images'];
-                                                                                                        endif ?>">
+                                                        <input type="hidden" name="image_old" value="<?php echo !$upid ? '' : $data['images']; ?>">
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <!-- Product Status -->
                                             <div class="col-sm-6">
-                                                <!-- Product Status -->
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label col-sm-3">Status <span class="text-danger">*</span></label>
+                                                    <label class="col-sm-3 col-form-label">Status <span class="text-danger">*</span></label>
                                                     <div class="col-sm-9">
-                                                        <label for="pstatus" class="col-sm-2 col-form-label"><input type="checkbox" name="pstatus[]" id="pstatus" value="Active" <?php echo $upid ? in_array("Active", $fetchStatus) ? "checked" : "" : '' ?>> Active</label>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input" name="pstatus[]" id="pstatus" value="Active" <?php echo $upid && in_array("Active", $fetchStatus) ? "checked" : ""; ?>>
+                                                            <label class="form-check-label" for="pstatus">Active</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
