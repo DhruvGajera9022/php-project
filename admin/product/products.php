@@ -66,7 +66,7 @@ $title = "Products";
                             <table id="tableProduct" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Image</th>
+                                        <th>Images</th>
                                         <th>Name</th>
                                         <th>Slug</th>
                                         <th>Category</th>
@@ -80,9 +80,15 @@ $title = "Products";
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while ($data = $res->fetch_assoc()) { ?>
+                                    <?php while ($data = $res->fetch_assoc()) {
+                                        $images_array = explode(', ', $data['images']);  // Split images into array
+                                    ?>
                                         <tr>
-                                            <td><img src="../../assets/img/productimage/<?php echo $data['images']; ?>" height="50px" alt="product image"></td>
+                                            <td>
+                                                <?php foreach ($images_array as $image) { ?>
+                                                    <img src="../../assets/img/productimage/<?php echo $image; ?>" height="50px" alt="product image">
+                                                <?php } ?>
+                                            </td>
                                             <td><?php echo $data['name']; ?></td>
                                             <td><?php echo $data['slug']; ?></td>
                                             <td><?php echo $data['category']; ?></td>
@@ -107,11 +113,5 @@ $title = "Products";
         </div>
     </section>
 </div>
-
-
-
-
-
-
 
 <?php include_once '../../includes/footer.php'; ?>

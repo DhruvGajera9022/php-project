@@ -1,14 +1,18 @@
 <?php
 
+// Include Database
 require_once '../../database/config.php';
 
+// Start the session
 session_start();
 
+// If user not logged in the redirected to login page
 if (!isset($_SESSION['id'])) {
     header("Location: ../../authentication/login.php");
     exit;
 }
 
+// Get the id of user from session and fetch data of user
 $id = $_SESSION['id'];
 if ($id) {
     $sqlSelect = "SELECT * FROM tbluser WHERE id = ?";
@@ -31,6 +35,7 @@ if ($id) {
 // Initialize an array to store slugs
 $existingSlug = [];
 
+// Fetch the slug from tblmaster for compare the slug
 $querySlug = "SELECT slug FROM tblmaster";
 $stmt = $conn->prepare($querySlug);
 if (!$stmt) {
@@ -45,8 +50,10 @@ while ($row = $resSlugName->fetch_assoc()) {
 }
 $stmt->close();
 
+// Get the update id from update button products.php
 $upid = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
 
+// Fetch the data of update id
 if ($upid) {
     $stmt = $conn->prepare("SELECT * FROM tblmaster WHERE id = ?");
     if (!$stmt) {
@@ -66,14 +73,17 @@ if ($upid) {
     $stmt->close();
 }
 
+// Initialize an array to store errors
 $errors = [];
 
+// For title and buttons
 if (!$upid) {
     $NAME = "Add";
 } else {
     $NAME = "Edit";
 }
 
+// To insert the record
 if (isset($_POST['Add'])) {
     $pname = $_POST['pname'];
     $pdescription = $_POST['pdescription'];
@@ -86,9 +96,9 @@ if (isset($_POST['Add'])) {
     $pnewprice = $_POST['pnewprice'];
     $pstatus = $_POST['pstatus'];
 
-    $new_image = $_FILES['image']['name'];
-    $temp_name = $_FILES['image']['tmp_name'];
-    $folder = "../../assets/img/productimage/" . basename($new_image);
+    // image array for multiple image
+    $images = [];
+    $image_count = count($_FILES['image']['name']);
 
     if (empty($pstatus)) {
         $pstatus[] = "Out of Stock";
@@ -137,12 +147,24 @@ if (isset($_POST['Add'])) {
         $errors['pnewprice'] = "Enter new price";
     }
 
-    if ($new_image != '') {
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-        if (in_array($_FILES['image']['type'], $allowed_types)) {
-            if ($_FILES['image']['size'] < 5000000) { // 5MB limit
-                if (!move_uploaded_file($temp_name, $folder)) {
-                    $errors['image'] = "Error uploading file.";
+    // for loop is used for take multiple image and insert into database
+    for ($i = 0; $i < $image_count; $i++) {
+        $new_image = $_FILES['image']['name'][$i];
+        $temp_name = $_FILES['image']['tmp_name'][$i];
+        $folder = "../../assets/img/productimage/" . basename($new_image);
+
+        // Validate and move each file
+        if ($new_image != '') {
+            $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+            if (in_array($_FILES['image']['type'][$i], $allowed_types)) {
+                if ($_FILES['image']['size'][$i] < 5000000) { // 5MB limit
+                    if (move_uploaded_file($temp_name, $folder)) {
+                        $images[] = basename($new_image); // Save the file name
+                    } else {
+                        $errors['image'] = "Error uploading file.";
+                    }
+                } else {
+                    $errors['image'] = "Image size exceeds 5MB.";
                 }
             } else {
                 $errors['image'] = "Invalid image format. Only JPEG, PNG, and GIF are allowed.";
@@ -150,12 +172,16 @@ if (isset($_POST['Add'])) {
         }
     }
 
+    // Store image array data in separate words and delemeter is , 
+    $images_string = implode(', ', $images); // Convert array to a string
+
+    // Check if array of errors is empty the insert query is executed
     if (empty($errors)) {
         $stmt = $conn->prepare("INSERT INTO tblmaster (name, description, slug, category, size, color, weight, oldprice, newprice, images, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if (!$stmt) {
             $errors['db_error'] = "Database error: " . $conn->error;
         } else {
-            $stmt->bind_param("sssssssssss", $pname, $pdescription, $pslug, $pcategory, $psize, $pcolor, $pweight, $poldprice, $pnewprice, $new_image, $strStatus);
+            $stmt->bind_param("sssssssssss", $pname, $pdescription, $pslug, $pcategory, $psize, $pcolor, $pweight, $poldprice, $pnewprice, $images_string, $strStatus);
             if ($stmt->execute()) {
                 header("Location: products.php");
                 exit;
@@ -167,6 +193,7 @@ if (isset($_POST['Add'])) {
     }
 }
 
+// To edit the record
 if (isset($_POST['Edit'])) {
     $pname = $_POST['pname'];
     $pdescription = $_POST['pdescription'];
@@ -178,11 +205,11 @@ if (isset($_POST['Edit'])) {
     $poldprice = $_POST['poldprice'];
     $pnewprice = $_POST['pnewprice'];
     $pstatus = $_POST['pstatus'];
+    $old_images = explode(', ', $_POST['image_old']); // Split the old images into an array
 
-    $new_image = $_FILES['image']['name'];
-    $temp_name = $_FILES['image']['tmp_name'];
-    $old_image = $_POST['image_old'];
-    $folder = "../../assets/img/productimage/" . basename($new_image);
+    // image array for multiple image
+    $images = [];
+    $image_count = count($_FILES['image']['name']);
 
     if (empty($pstatus)) {
         $pstatus[] = "Out of Stock";
@@ -230,35 +257,50 @@ if (isset($_POST['Edit'])) {
         $errors['pnewprice'] = "Enter new price";
     }
 
-    // Image upload handling
-    $update_filename = $old_image;
-    if ($new_image != '') {
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-        if (in_array($_FILES['image']['type'], $allowed_types)) {
-            if ($_FILES['image']['size'] < 5000000) { // 5MB limit
-                $update_filename = basename($new_image);
-                $folder = "../../assets/img/productimage/" . $update_filename;
-                if (!move_uploaded_file($temp_name, $folder)) {
-                    $errors['image'] = "Error uploading file.";
-                }
-                // Remove old image if new image is uploaded successfully
-                if (empty($errors) && $old_image != '' && file_exists("../../assets/img/productimage/" . $old_image)) {
-                    unlink("../../assets/img/productimage/" . $old_image);
+    // for loop is used for take multiple image and insert into database
+    for ($i = 0; $i < $image_count; $i++) {
+        $new_image = $_FILES['image']['name'][$i];
+        $temp_name = $_FILES['image']['tmp_name'][$i];
+        $folder = "../../assets/img/productimage/" . basename($new_image);
+
+        // check the images and types of it
+        if ($new_image != '') {
+            $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+            if (in_array($_FILES['image']['type'][$i], $allowed_types)) {
+                if ($_FILES['image']['size'][$i] < 5000000) { // 5MB limit
+                    if (move_uploaded_file($temp_name, $folder)) {
+                        $images[] = basename($new_image); // Save the file name
+                    } else {
+                        $errors['image'] = "Error uploading file.";
+                    }
+                } else {
+                    $errors['image'] = "Image size exceeds 5MB.";
                 }
             } else {
-                $errors['image'] = "Image size exceeds 5MB.";
+                $errors['image'] = "Invalid image format. Only JPEG, PNG, and GIF are allowed.";
             }
-        } else {
-            $errors['image'] = "Invalid image format. Only JPEG, PNG, and GIF are allowed.";
         }
     }
 
+    // check the images and if images already available then store new images and remove old images from the folder
+    if (!empty($images)) {
+        foreach ($old_images as $old_image) {
+            if (!empty($old_image) && file_exists("../../assets/img/productimage/" . $old_image)) {
+                unlink("../../assets/img/productimage/" . $old_image);
+            }
+        }
+        $images_string = implode(', ', $images); // Convert new images array to a string
+    } else {
+        $images_string = implode(', ', $old_images); // If no new images are uploaded, keep the old images
+    }
+
+    // check the array of errors is empty then update query is executed
     if (empty($errors)) {
         $stmt = $conn->prepare("UPDATE tblmaster SET name = ?, description = ?, slug = ?, category = ?, size = ?, color = ?, weight = ?, oldprice = ?, newprice = ?, images = ?, status = ? WHERE id = ?");
         if (!$stmt) {
             $errors['db_error'] = "Database error: " . $conn->error;
         } else {
-            $stmt->bind_param("sssssssssssi", $pname, $pdescription, $pslug, $pcategory, $psize, $pcolor, $pweight, $poldprice, $pnewprice, $update_filename, $strStatus, $upid);
+            $stmt->bind_param("sssssssssssi", $pname, $pdescription, $pslug, $pcategory, $psize, $pcolor, $pweight, $poldprice, $pnewprice, $images_string, $strStatus, $upid);
             if ($stmt->execute()) {
                 header("Location: products.php");
                 exit;
@@ -270,10 +312,12 @@ if (isset($_POST['Edit'])) {
     }
 }
 
+// To delete the record
 if (isset($_REQUEST['idd'])) {
-    $id = $_GET['idd'];
+    $id = intval($_GET['idd']); // Use intval() to ensure it's an integer
 
-    $stmt = $conn->prepare("SELECT * FROM tblmaster WHERE id = ?");
+    // Fetch the product details to get the image filenames
+    $stmt = $conn->prepare("SELECT images FROM tblmaster WHERE id = ?");
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }
@@ -283,19 +327,32 @@ if (isset($_REQUEST['idd'])) {
 
     if ($res->num_rows > 0) {
         $dataDelete = $res->fetch_assoc();
-    }
+        $images = explode(', ', $dataDelete['images']); // Convert the comma-separated string to an array
 
-    $imageDelete = $dataDelete['images'];
-
-    $query = "DELETE FROM tblmaster WHERE id = '$id' ";
-    $result = mysqli_query($conn, $query);
-
-    unlink("../../assets/img/productimage/" . $imageDelete);
-
-    if ($result) {
-        header('location: products.php');
+        // Delete the product record from the database
+        $stmt = $conn->prepare("DELETE FROM tblmaster WHERE id = ?");
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            // Delete images from the server
+            foreach ($images as $image) {
+                $imagePath = "../../assets/img/productimage/" . $image;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath); // Delete the file
+                }
+            }
+            header('Location: products.php'); // Redirect to the products page
+            exit;
+        } else {
+            die("Database error: Failed to delete record");
+        }
+    } else {
+        die("Product not found");
     }
 }
+
 
 $title = "Products";
 
@@ -452,40 +509,55 @@ $title = "Products";
                                             </div>
                                         </div>
 
-                                        <!-- Product Old Price -->
-                                        <div class="form-group row">
-                                            <label for="poldprice" class="col-sm-2 col-form-label">Old Price <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <input type="number" name="poldprice" id="poldprice" class="form-control" value="<?php echo $upid ? $data['oldprice'] : ''; ?>">
+                                        <!-- Product Old Price - New Price -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <!-- Product Old Price -->
+                                                <div class="form-group row">
+                                                    <label for="poldprice" class="col-sm-2 col-form-label col-sm-3">Old Price <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="poldprice" id="poldprice" class="form-control" value="<?php echo $upid ? $data['oldprice'] : ''; ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <!-- Product New Price -->
+                                                <div class="form-group row">
+                                                    <label for="pnewprice" class="col-sm-2 col-form-label col-sm-3">New Price <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="number" name="pnewprice" id="pnewprice" class="form-control" value="<?php echo $upid ? $data['newprice'] : ''; ?>">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <!-- Product New Price -->
-                                        <div class="form-group row">
-                                            <label for="pnewprice" class="col-sm-2 col-form-label">New Price <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <input type="number" name="pnewprice" id="pnewprice" class="form-control" value="<?php echo $upid ? $data['newprice'] : ''; ?>">
+                                        <!-- Product Image - Status -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <!-- Product Image -->
+                                                <div class="form-group row">
+                                                    <label for="inputImage" class="col-sm-2 col-form-label col-sm-3">Product Image <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <input type="file" class="form-control" name="image[]" id="inputImage" multiple>
+                                                        <input type="hidden" name="image_old" value="<?php if (!$upid): echo "";
+                                                                                                        else: echo $data['images'];
+                                                                                                        endif ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <!-- Product Status -->
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label col-sm-3">Status <span class="text-danger">*</span></label>
+                                                    <div class="col-sm-9">
+                                                        <label for="pstatus" class="col-sm-2 col-form-label"><input type="checkbox" name="pstatus[]" id="pstatus" value="Active" <?php echo $upid ? in_array("Active", $fetchStatus) ? "checked" : "" : '' ?>> Active</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <!-- Product Image -->
-                                        <div class="form-group row">
-                                            <label for="inputImage" class="col-sm-2 col-form-label">Product Image <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <input type="file" class="form-control" name="image" id="inputImage" multiple>
-                                                <input type="hidden" name="image_old" value="<?php if (!$upid): echo "";
-                                                                                                else: echo $data['images'];
-                                                                                                endif ?>">
-                                            </div>
-                                        </div>
-
-                                        <!-- Product Status -->
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Status <span class="text-danger">*</span></label>
-                                            <div class="col-sm-10">
-                                                <label for="pstatus" class="col-sm-2 col-form-label"><input type="checkbox" name="pstatus[]" id="pstatus" value="Active" <?php echo $upid ? in_array("Active", $fetchStatus) ? "checked" : "" : '' ?>> Active</label>
-                                            </div>
-                                        </div>
                                     </div>
                                     <!-- /.card-body -->
 
