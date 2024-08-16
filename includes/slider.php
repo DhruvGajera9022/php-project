@@ -40,14 +40,20 @@
                             <p>Roles</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="../product/products.php" class="nav-link <?php echo $title == 'Products' ? 'active' : ''; ?>">
+                            <i class="nav-icon fab fa-product-hunt"></i>
+                            <p>Master</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../policy/policy.php" class="nav-link <?php echo $title == 'Policy' ? 'active' : ''; ?>">
+                            <i class="nav-icon fas fa-file-contract"></i>
+                            <p>Policy</p>
+                        </a>
+                    </li>
 
                 <?php } ?>
-                <li class="nav-item">
-                    <a href="../product/products.php" class="nav-link <?php echo $title == 'Products' ? 'active' : ''; ?>">
-                        <i class="nav-icon fab fa-product-hunt"></i>
-                        <p>Master</p>
-                    </a>
-                </li>
             </ul>
         </nav>
     </div>
