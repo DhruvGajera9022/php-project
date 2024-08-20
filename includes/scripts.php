@@ -128,5 +128,23 @@
             const content = $("#pdescription").summernote("code");
             $("#pdescription").html(content);
         }
+        $("#policyDescription").summernote({
+            placeholder: "Write your content here",
+            height: 70,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+
+        function showContent() {
+            const content = $("#policyDescription").summernote("code");
+            $("#policyDescription").html(content);
+        }
     });
 </script>
